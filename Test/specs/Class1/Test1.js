@@ -96,7 +96,7 @@
           * return-type: string
           */
          const currentTitle = await browser.getTitle();
-         const expectedTitle = 'Facebook – log in or sign up';
+         const expectedTitle = 'Facebook - log in or sign up';
  
          expect(currentTitle, 'facebook.com does not have the expected title').to.equal(expectedTitle);
  

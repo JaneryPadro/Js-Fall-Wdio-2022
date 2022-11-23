@@ -1,3 +1,5 @@
+const {expect} = require("chai");
+const {it} = require("mocha");
 // Due date: Nov 21 (Mon)
 
 /**
@@ -18,10 +20,27 @@ describe('Verify current date is displayed on Sign-Up form', () => {
     it('Testcase on current date is displayed on Sign-Up form', async () => {
 
     await browser.url('/')
+   // Click Create New Account button
+    const createNewAccountButton = await $('=Create new account');
+    createNewAccountButton.click();
 
-    const createNewAccountButton =await $(`button[]`);
-     createNewAccountButton.click();
-     
+    await browser.pause(1000)
+
+    //Verify current date is displayed in Date of birth dropdowns
+    const dayDropdown = await $(`#day`);
+    dayDropdown.getText()
+
+
+    const monthDropdown = await $(`#month`);
+    monthDropdown.getText()
+
+    const yearDropdown = await $(`#year`);
+    yearDropdown.getText()
+    expect( dayDropdown && monthDropdown && yearDropdown,`Not working`);
+
+    await browser.pause(1000);
+
+
      })
 
 })
@@ -33,11 +52,17 @@ describe('Verify current date is displayed on Sign-Up form', () => {
  * 
  * Expected error msg -> The email address or mobile number you entered isn't connected to an account.
  */
- describe('Verify current date is displayed on Sign-Up form', () => {
+ describe(' Verify user gets error when submits empty login form', () => {
 
     it('', async () => {
 
-    await browser.url('/')
+        await browser.url('/');
+
+        const loginError = await $(`//div[@class='_9ay7']`);
+        const isLoginErrorDisplayed = await loginError.isDisplayed();
+        expect(isLoginErrorDisplayed, `The email address or mobile number you entered isn't connect to an account.`).to.be.false;
+
+     await browser.pause(1000);
 
      })
 
@@ -52,17 +77,63 @@ describe('Verify current date is displayed on Sign-Up form', () => {
  * 3. Click "Log in" button
  * 4. Verify link (Find your account and log in.) is displayed
  * 5. Verify "Continue" button is enabled
- * 6. Verify "Keep me signed in" is NOT selected
- * 7. Click "Keep me signed in" checkbox
- * 8. Verify "Keep me signed in" is selected
+ * 6. Click "Keep me signed in" checkbox
+ * 7. Verify "Keep me signed in" is selected
  * 
  */
- describe('Verify current date is displayed on Sign-Up form', () => {
+ describe('Verify user gets error when submit empty login on messager screen', () => {
 
-    it('', async () => {
+    it('Testcases for messager', async () => {
 
-    await browser.url('/')
 
+    await browser.url('/');
+   // Click Messenger
+        const clickMessagerlink = await $(`//a[@title='Check out Messenger.']`);
+        clickMessagerlink.click();
+
+        await browser.pause(1000);
+
+    //Verify "Keep me signed in" is NOT selected
+    const keepMeSignedIn = await $(`//*[@class='uiInputLabelLabel']`).isSelected();
+    console.log( `Keep me signed in is Not selecgted ${keepMeSignedIn}`);
+    
+
+    await browser.pause(1000);
+
+    //click login button
+    const loginButton = await $('<button>');
+    loginButton.click();
+
+    await browser.pause(1000);
+
+
+    //Verify link (Find your account and log in.) is displayed
+
+    const loginErrorLink = await $('*=Find');
+    const isLoginErrorDisplayed = await loginErrorLink.isDisplayed();
+    expect(isLoginErrorDisplayed, 'Login error is NOT displayed').to.be.false;
+
+    await browser.pause(1000);
+
+    //Verify "Continue" button is enabled
+     const continueButton = await $(`//button[@name='login']`);
+     const isContinueButtonEnabled = await continueButton.isEnabled();
+     expect(isContinueButtonEnabled, 'Continue button is Not enabled').to.be.true;
+
+        await browser.pause(1000);
+
+     //Click "Keep me signed in" checkbox
+     const keepSgnInButton = await $('=before');
+      keepSgnInButton.click();
+
+      await browser.pause(1000);
+
+     //Verify "Keep me signed in" is selected
+     const kpMeSignedIn = await $(`//*[@class='uiInputLabelLabel']`);
+     const kpMeSignedInSelected = await kpMeSignedIn.isSelected();
+     expect(kpMeSignedInSelected, 'Keep me signed is Not selected').to.be.true;
+
+     await browser.pause(1000)
      })
 
 })
@@ -78,12 +149,29 @@ describe('Verify current date is displayed on Sign-Up form', () => {
  * feelsLikeTempValue <= lowTempValue AND feelsLikeTempValue <= highTempValue
  * 
  */
- describe('Verify current date is displayed on Sign-Up form', () => {
 
-    it('', async () => {
+ describe(' Verify feelsLikeTempValue is in between lowTempValue and highTempValue', () => {
 
-    await browser.url('/')
+   it('Testcase for Temperature', async () => {
 
-     })
+       await browser.url(`https://www.darksky.net/`);
 
-})
+     
+
+      const feelsLikeTempValue = Number(await $(`//span[contains(text(),'Feels Like')]`).getText());
+      const lowTempValue = Number(await $(`//span[contains(text(),'Low')]`).getText());
+      const highTempValue = Number(await $(`//span[contains(text(),'High')]`).getText());
+      expect( feelslLikeTempValue <= highTempValue && feelsLikeTempValue >= lowTempValue,`Not working`);
+
+      await browser.pause(1000)
+
+
+    })
+
+     
+
+});
+
+
+
+

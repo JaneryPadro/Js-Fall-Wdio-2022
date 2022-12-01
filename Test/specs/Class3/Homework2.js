@@ -36,7 +36,7 @@ describe('Verify current date is displayed on Sign-Up form', () => {
 
     const yearDropdown = await $(`#year`);
     yearDropdown.getText()
-    expect( dayDropdown && monthDropdown && yearDropdown,`Not working`);
+    expect( dayDropdown && monthDropdown && yearDropdown,`Not working`).to.be.true;
 
     await browser.pause(1000);
 
@@ -58,9 +58,10 @@ describe('Verify current date is displayed on Sign-Up form', () => {
 
         await browser.url('/');
 
+        await $('#loginbutton').click();
         const loginError = await $(`//div[@class='_9ay7']`);
         const isLoginErrorDisplayed = await loginError.isDisplayed();
-        expect(isLoginErrorDisplayed, `The email address or mobile number you entered isn't connect to an account.`).to.be.false;
+        expect(isLoginErrorDisplayed, 'The email address or mobile number you entered isn\'t connect to an account').to.be.true;
 
      await browser.pause(1000);
 
@@ -81,21 +82,20 @@ describe('Verify current date is displayed on Sign-Up form', () => {
  * 7. Verify "Keep me signed in" is selected
  * 
  */
- describe('Verify user gets error when submit empty login on messager screen', () => {
+ describe('Verify user gets error when submit empty login on messenger screen', () => {
 
-    it('Testcases for messager', async () => {
+    it('Testcases for messenger', async () => {
 
 
     await browser.url('/');
    // Click Messenger
-        const clickMessagerlink = await $(`//a[@title='Check out Messenger.']`);
-        clickMessagerlink.click();
+        await $('=Messenger').click;
 
         await browser.pause(1000);
 
     //Verify "Keep me signed in" is NOT selected
-    const keepMeSignedIn = await $(`//*[@class='uiInputLabelLabel']`).isSelected();
-    console.log( `Keep me signed in is Not selecgted ${keepMeSignedIn}`);
+    const keepMeSignedIn = await $('//input[@type="checkbox"]').isSelected;
+    console.log( `keepMesSignedIn -> ${keepMeSignedIn}`);
     
 
     await browser.pause(1000);
@@ -109,16 +109,16 @@ describe('Verify current date is displayed on Sign-Up form', () => {
 
     //Verify link (Find your account and log in.) is displayed
 
-    const loginErrorLink = await $('*=Find');
-    const isLoginErrorDisplayed = await loginErrorLink.isDisplayed();
-    expect(isLoginErrorDisplayed, 'Login error is NOT displayed').to.be.false;
+    const loginErrorLink = await $('*=Find your account and login in.').isDisplayed;
+    console.log(`loginErrorLink -> ${loginErrorLink}`);
+  
 
     await browser.pause(1000);
 
     //Verify "Continue" button is enabled
-     const continueButton = await $(`//button[@name='login']`);
-     const isContinueButtonEnabled = await continueButton.isEnabled();
-     expect(isContinueButtonEnabled, 'Continue button is Not enabled').to.be.true;
+     const continueButtonEnabled = await $('#loginbutton').isEnabled;
+     console.log(`continueButtonEnabled -> ${continueButtonEnabled}`)
+     
 
         await browser.pause(1000);
 
@@ -129,11 +129,12 @@ describe('Verify current date is displayed on Sign-Up form', () => {
       await browser.pause(1000);
 
      //Verify "Keep me signed in" is selected
-     const kpMeSignedIn = await $(`//*[@class='uiInputLabelLabel']`);
+     const kpMeSignedIn = await $('//input[@type="checkbox"]');
      const kpMeSignedInSelected = await kpMeSignedIn.isSelected();
-     expect(kpMeSignedInSelected, 'Keep me signed is Not selected').to.be.true;
+     console.log(`kpMeSignedIn -> ${kpMeSignedInSelected}`);
 
-     await browser.pause(1000)
+     await browser.pause(1000);
+
      })
 
 })
@@ -161,7 +162,7 @@ describe('Verify current date is displayed on Sign-Up form', () => {
       const feelsLikeTempValue = Number(await $(`//span[contains(text(),'Feels Like')]`).getText());
       const lowTempValue = Number(await $(`//span[contains(text(),'Low')]`).getText());
       const highTempValue = Number(await $(`//span[contains(text(),'High')]`).getText());
-      expect( feelslLikeTempValue <= highTempValue && feelsLikeTempValue >= lowTempValue,`Not working`);
+      expect( feelsLikeTempValue <= highTempValue && feelsLikeTempValue >= lowTempValue,`Not working`);
 
       await browser.pause(1000)
 

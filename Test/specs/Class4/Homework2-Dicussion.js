@@ -142,4 +142,31 @@ describe('Homework - 2', () => {
      */
 
 
+     describe(' Verify feelsLikeTempValue is in between lowTempValue and highTempValue', () => {
+
+        it('Testcase for Temperature', async () => {
+     
+            await browser.url(`https://www.darksky.net/`);
+     
+          
+     
+           const feelsLikeTempValue = Number(await $(`//span[contains(text(),'Feels Like')]`).getText());
+           const lowTempValue = Number(await $(`//span[contains(text(),'Low')]`).getText());
+           const highTempValue = Number(await $(`//span[contains(text(),'High')]`).getText());
+           expect( feelsLikeTempValue <= highTempValue && feelsLikeTempValue >= lowTempValue,`Not working`);
+     
+           await browser.pause(1000)
+     
+     
+         })
+     
+          
+     
+     });
+     
+
+
+
+
+
 });
